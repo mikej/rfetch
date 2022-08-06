@@ -41,7 +41,7 @@ module RFetch
 
       def content_of(expr)
         element = page.at_css(expr)
-        element.content if element
+        element&.content
       end
 
       def content_attr_of(expr)
