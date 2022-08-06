@@ -45,7 +45,7 @@ module RFetch
 
   private
 
-    def build_redirect(url, resp)
+    def self.build_redirect(url, resp)
       redirect = resp.headers["location"]
 
       return redirect unless redirect.start_with? "/"
