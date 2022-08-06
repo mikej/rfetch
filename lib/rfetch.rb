@@ -33,13 +33,7 @@ module RFetch
 
       break unless REDIRECT_CODES.include?(resp.status)
 
-      redirect = resp.headers["location"]
-      # handle Location header with path only
-      if redirect.start_with? "/"
-        url = URI(url)
-        url.path = redirect
-        redirect = url.to_s
-      end
+      redirect = build_redirect(url, resp)
 
       raise "Redirect loop back to #{redirect}" if seen.include?(redirect)
 
@@ -49,4 +43,17 @@ module RFetch
 
     Result.new(resp.status, resp.headers["content-type"], resp.body)
   end
+
+  private
+
+    def build_redirect(url, resp)
+      redirect = resp.headers["location"]
+
+      return redirect unless redirect.start_with? "/"
+
+      # handle Location header with path only
+      url = URI(url)
+      url.path = redirect
+      url.to_s
+    end
 end
