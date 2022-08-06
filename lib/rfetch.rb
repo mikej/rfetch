@@ -37,7 +37,6 @@ module RFetch
 
       raise "Redirect loop back to #{redirect}" if seen.include?(redirect)
 
-      puts "Following redirect to #{redirect}"
       url = redirect
     end
 
