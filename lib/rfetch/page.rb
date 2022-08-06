@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require "nokogiri"
 
 module RFetch
+  # Provides access to the title and description for a fetched page
   class Page
     def initialize(content)
       @content = content

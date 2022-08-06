@@ -7,16 +7,15 @@ require_relative "rfetch/page"
 require "set"
 require "faraday"
 
+# Main module for RFetch
 module RFetch
-  REDIRECT_CODES  = Set.new [301, 302, 303, 307, 308]
+  REDIRECT_CODES = Set.new [301, 302, 303, 307, 308]
 
   Result = Struct.new(:url, :status_code, :content_type, :body) do
     def to_page
-      if content_type == "text/html"
-        Page.new(body)
-      else
-        raise "content of type #{content_type} can't be converted to a Page"
-      end
+      raise "content of type #{content_type} can't be converted to a Page" unless content_type == "text/html"
+
+      Page.new(body)
     end
   end
 
