@@ -2,6 +2,7 @@
 
 require_relative "rfetch/version"
 require_relative "rfetch/helpers"
+require_relative "rfetch/page"
 
 require "set"
 require "faraday"
@@ -9,7 +10,15 @@ require "faraday"
 module RFetch
   REDIRECT_CODES  = Set.new [301, 302, 303, 307, 308]
 
-  Result = Struct.new(:status_code, :content_type, :body)
+  Result = Struct.new(:status_code, :content_type, :body) do
+    def to_page
+      if content_type == "text/html"
+        Page.new(body)
+      else
+        raise "content of type #{content_type} can't be converted to a Page"
+      end
+    end
+  end
 
   def self.get(url_requested)
     seen = []
