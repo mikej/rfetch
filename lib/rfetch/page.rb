@@ -17,6 +17,10 @@ module RFetch
       @description ||= find_description
     end
 
+    def meta_content(name, name_attribute: "name")
+      content_attr_of("meta[#{name_attribute}='#{name}']")
+    end
+
     def page
       @page ||= Nokogiri::HTML(@content)
     end
