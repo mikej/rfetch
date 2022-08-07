@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["mikej@users.noreply.github.com"]
 
   spec.summary       = "Fetch information about a URL"
-  # spec.description   = "TODO: Write a longer description or delete this line."
+  spec.description   = "Fetch the title, description, and other meta information from a URL"
   spec.homepage      = "https://github.com/mikej/rfetch"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
