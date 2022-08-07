@@ -19,12 +19,25 @@ module RFetch
     end
   end
 
+  # used for non 2xx responses to requests
+  class RequestError < StandardError
+    attr_reader :status_code, :reason
+
+    def initialize(status_code, reason)
+      @status_code = status_code
+      @reason = reason
+      super "#{@status_code} #{@reason}"
+    end
+  end
+
   def self.get(url_requested)
     conn = Faraday::Connection.new
 
     url, resp = following_redirects(url_requested) do |url|
       conn.get(url) { |req| req.options.timeout = 5 }
     end
+
+    raise RequestError.new(resp.status, resp.reason_phrase) unless resp.success?
 
     Result.new(url, resp.status, resp.headers["content-type"], resp.body)
   end
