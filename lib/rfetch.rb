@@ -33,25 +33,25 @@ module RFetch
   def self.get(url_requested)
     conn = Faraday::Connection.new
 
-    url, resp = following_redirects(url_requested) do |url|
+    url, response = following_redirects(url_requested) do |url|
       conn.get(url) { |req| req.options.timeout = 5 }
     end
 
-    raise RequestError.new(resp.status, resp.reason_phrase) unless resp.success?
+    raise RequestError.new(response.status, response.reason_phrase) unless response.success?
 
-    Result.new(url, resp.status, resp.headers["content-type"], resp.body)
+    Result.new(url, response.status, response.headers["content-type"], response.body)
   end
 
   private_class_method def self.following_redirects(url)
     seen = []
 
     loop do
-      resp = yield url
+      response = yield url
       seen << url
 
-      return [url, resp] unless REDIRECT_CODES.include?(resp.status)
+      return [url, response] unless REDIRECT_CODES.include?(response.status)
 
-      redirect = build_redirect(url, resp)
+      redirect = build_redirect(url, response)
 
       raise "Redirect loop back to #{redirect}" if seen.include?(redirect)
 
@@ -59,8 +59,8 @@ module RFetch
     end
   end
 
-  private_class_method def self.build_redirect(url, resp)
-    redirect = resp.headers["location"]
+  private_class_method def self.build_redirect(url, response)
+    redirect = response.headers["location"]
 
     return redirect unless redirect.start_with? "/"
 
