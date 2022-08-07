@@ -1,8 +1,8 @@
 # RFetch
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rfetch`. To experiment with that code, run `bin/console` for an interactive prompt.
+RFetch can be used to fetch a URL and includes methods that provide quick access to the title, description, and other meta information from the content returned.
 
-TODO: Delete this and the text above, and describe your gem
+The primary use case is automatically generating a title and preview when storing a URL within an application. 
 
 ## Installation
 
@@ -22,7 +22,14 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+irb(main):012:0> result = RFetch.get("https://example.com/")
+=> #<RFetch::Result url="https://example.com/" status_code=200 content_type="text/html; chars...
+irb(main):013:0> page = result.to_page
+=> #<RFetch::Page:0x00007fce5205ea10 @content="<!doctype html>\n<html>\n<head>\n    <title>Ex...
+irb(main):014:0> page.title
+=> "Example Domain"
+```
 
 ## Development
 
@@ -32,7 +39,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rfetch.
+Bug reports and pull requests are welcome on GitHub at https://github.com/mikej/rfetch.
 
 ## License
 
