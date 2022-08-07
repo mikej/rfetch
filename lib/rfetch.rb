@@ -12,6 +12,8 @@ module RFetch
   REDIRECT_CODES = Set.new [301, 302, 303, 307, 308]
 
   Result = Struct.new(:url, :status_code, :content_type, :body) do
+    BODY_PREVIEW_SIZE = 20
+
     def to_page
       raise "Media type #{content_type} can't be converted to a Page" unless media_type == "text/html"
 
@@ -20,6 +22,11 @@ module RFetch
 
     def media_type
       content_type.split(/;\s*/).first
+    end
+
+    def inspect
+      "#<#{self.class.name} url=\"#{url}\" status_code=#{status_code} " \
+        "content_type=\"#{content_type}\" body=\"#{body[...BODY_PREVIEW_SIZE]}\">"
     end
   end
 
