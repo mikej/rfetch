@@ -2,7 +2,9 @@
 
 RFetch can be used to fetch a URL and includes methods that provide quick access to the title, description, and other meta information from the content returned.
 
-The primary use case is automatically generating a title and preview when storing a URL within an application. 
+The primary use case is automatically generating a title and preview when storing a URL within an application.
+
+RFetch uses [Faraday](https://lostisland.github.io/faraday/) to make the actual requests.
 
 ## Installation
 
