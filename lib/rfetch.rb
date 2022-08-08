@@ -42,15 +42,21 @@ module RFetch
   end
 
   def self.get(url_requested)
-    conn = Faraday::Connection.new
-
     url, response = following_redirects(url_requested) do |url|
-      conn.get(url) { |req| req.options.timeout = 5 }
+      connection.get(url) { |req| req.options.timeout = 5 }
     end
 
     raise RequestError.new(response.status, response.reason_phrase) unless response.success?
 
     Result.new(url, response.status, response.headers["content-type"], response.body)
+  end
+
+  def self.connection=(connection)
+    @connection = connection
+  end
+
+  def self.connection
+    @connection ||= Faraday::Connection.new
   end
 
   private_class_method def self.following_redirects(url)
