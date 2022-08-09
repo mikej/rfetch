@@ -11,7 +11,7 @@ module RFetch
       nil
     end
 
-    def meta_content(name, name_attribute: "name")
+    def meta_content(*)
       nil
     end
   end
