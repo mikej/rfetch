@@ -3,6 +3,7 @@
 require_relative "rfetch/version"
 require_relative "rfetch/helpers"
 require_relative "rfetch/page"
+require_relative "rfetch/non_html_page"
 
 require "set"
 require "faraday"
