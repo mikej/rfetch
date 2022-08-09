@@ -21,11 +21,20 @@ module RFetch
       content_attr_of("meta[#{name_attribute}='#{name}']")
     end
 
-    def page
-      @page ||= Nokogiri::HTML(@content)
+    def self.from(result)
+      case result.media_type
+      when "text/html"
+        Page.new(result.body)
+      else
+        NonHtmlPage.new
+      end
     end
 
     private
+
+      def page
+        @page ||= Nokogiri::HTML(@content)
+      end
 
       def find_title
         # look for meta titles then

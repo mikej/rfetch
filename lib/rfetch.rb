@@ -13,9 +13,7 @@ module RFetch
 
   Result = Struct.new(:url, :status_code, :content_type, :body) do
     def to_page
-      raise "Media type #{content_type} can't be converted to a Page" unless media_type == "text/html"
-
-      Page.new(body)
+      Page.from(self)
     end
 
     def media_type
