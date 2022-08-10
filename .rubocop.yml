@@ -17,3 +17,6 @@ Metrics/MethodLength:
 
 Layout/IndentationConsistency:
   EnforcedStyle: indented_internal_methods
+
+Metrics/BlockLength:
+  IgnoredMethods: ['describe', 'context']

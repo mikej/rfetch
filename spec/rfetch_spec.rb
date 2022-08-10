@@ -25,5 +25,11 @@ RSpec.describe RFetch do
 
       expect(result).to eq(RFetch::Result.new("https://example.com", 200, "text/plain", "This is an example"))
     end
+
+    pending "raises an exception if the specified URL is not found"
+    pending "follows redirects and returns the target URL in the result"
+    pending "follows multiple redirects and returns the last URL in the result"
+    pending "detects redirect loops"
+    pending "handles redirects to a path only (without a host in Location)"
   end
 end
