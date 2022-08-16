@@ -21,6 +21,10 @@ module RFetch
       content_attr_of("meta[#{name_attribute}='#{name}']")
     end
 
+    def at_css(expr)
+      page.at_css(expr)
+    end
+
     def self.from(result)
       case result.media_type
       when "text/html"

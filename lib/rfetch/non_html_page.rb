@@ -14,5 +14,9 @@ module RFetch
     def meta_content(*)
       nil
     end
+
+    def at_css(*)
+      nil
+    end
   end
 end
