@@ -7,6 +7,7 @@ require_relative "rfetch/non_html_page"
 
 require "set"
 require "faraday"
+require "faraday/httpclient"
 
 # Main module for RFetch
 module RFetch
@@ -55,7 +56,7 @@ module RFetch
   end
 
   def self.connection
-    @connection ||= Faraday::Connection.new
+    @connection ||= Faraday.new { |c| c.adapter(:httpclient) }
   end
 
   private_class_method def self.following_redirects(url)
