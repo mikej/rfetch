@@ -31,8 +31,8 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   spec.add_dependency "faraday"
-  spec.add_dependency "nokogiri"
   spec.add_dependency "faraday-httpclient", "~> 2.0"
+  spec.add_dependency "nokogiri"
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html
