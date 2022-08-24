@@ -12,6 +12,7 @@ require "faraday/httpclient"
 # Main module for RFetch
 module RFetch
   REDIRECT_CODES = Set.new [301, 302, 303, 307, 308]
+  TEMPORARY_REDIRECT_CODES = Set.new [302, 307]
 
   Result = Struct.new(:url, :status_code, :content_type, :body) do
     def to_page
@@ -61,19 +62,32 @@ module RFetch
 
   private_class_method def self.following_redirects(url)
     seen = []
+    result_url = url
+    been_through_temporary_redirect = false
 
     loop do
       response = yield url
       seen << url
 
-      return [url, response] unless REDIRECT_CODES.include?(response.status)
+      return [result_url, response] unless redirect?(response)
 
       redirect = build_redirect(url, response)
 
       raise "Redirect loop back to #{redirect}" if seen.include?(redirect)
 
+      been_through_temporary_redirect = true if temporary_redirect?(response)
+
       url = redirect
+      result_url = url unless been_through_temporary_redirect
     end
+  end
+
+  private_class_method def self.redirect?(response)
+    REDIRECT_CODES.include?(response.status)
+  end
+
+  private_class_method def self.temporary_redirect?(response)
+    TEMPORARY_REDIRECT_CODES.include?(response.status)
   end
 
   private_class_method def self.build_redirect(url, response)
