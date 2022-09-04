@@ -42,9 +42,9 @@ module RFetch
     end
   end
 
-  def self.get(url_requested)
+  def self.get(url_requested, options = {})
     url, response = following_redirects(url_requested) do |url|
-      connection.get(url) { |req| req.options.timeout = 5 }
+      connection.get(url) { |req| req.options.timeout = options[:timeout] || 10 }
     end
 
     raise RequestError.new(response.status, response.reason_phrase) unless response.success?
