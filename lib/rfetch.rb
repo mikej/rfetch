@@ -47,6 +47,7 @@ module RFetch
       connection.get(url) do |req|
         req.options.timeout = options[:timeout] || 10
         req.headers[:accept] = "text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8"
+        req.headers["User-Agent"] = @user_agent if @user_agent
       end
     end
 
@@ -57,6 +58,10 @@ module RFetch
 
   def self.connection=(connection)
     @connection = connection
+  end
+
+  def self.user_agent=(user_agent)
+    @user_agent = user_agent
   end
 
   def self.connection
