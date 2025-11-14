@@ -45,9 +45,7 @@ module RFetch
   def self.get(url_requested, options = {})
     url, response = following_redirects(url_requested) do |url|
       connection.get(url) do |req|
-        req.options.timeout = options[:timeout] || 10
-        req.headers[:accept] = "text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8"
-        req.headers["User-Agent"] = @user_agent if @user_agent
+        configure_request(req, options)
       end
     end
 
@@ -88,6 +86,12 @@ module RFetch
       url = redirect
       result_url = url unless been_through_temporary_redirect
     end
+  end
+
+  private_class_method def self.configure_request(req, options)
+    req.options.timeout = options[:timeout] || 10
+    req.headers[:accept] = "text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8"
+    req.headers["User-Agent"] = @user_agent if @user_agent
   end
 
   private_class_method def self.redirect?(response)
